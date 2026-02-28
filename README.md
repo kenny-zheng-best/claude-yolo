@@ -1,58 +1,113 @@
-# Claude YOLO
+<p align="center">
+  <img src="Claude-Yolo-Icon-Padded.png" width="128" alt="Claude YOLO Icon">
+</p>
 
-**You Only Live Once** — 双击即可启动 Claude Code YOLO 模式的 macOS 应用。
+<h1 align="center">Claude YOLO</h1>
 
-无需打开终端，无需记命令。双击打开，自动搞定一切。
+<p align="center">
+  <strong>I ship code, I don't read.</strong><br>
+  One-click launcher for Claude Code with bypass permissions mode on macOS.
+</p>
 
-## 下载安装
+<p align="center">
+  <a href="https://github.com/kenny-zheng-best/claude-yolo/releases">Download</a>
+</p>
 
-前往 [Releases](https://github.com/kenny-zheng-best/claude-yolo/releases/latest) 页面，下载最新的 **Claude-YOLO.dmg**，打开后将应用拖入 Applications 文件夹即可。
+---
 
-### macOS 提示"已损坏"？
+## Why This Exists
 
-由于应用没有 Apple 开发者签名，macOS 会阻止打开。解决方法：
+We're living through a shift in how code gets written.
 
-打开**终端**，粘贴以下命令后回车：
+**2021 — Copilot autocompletes a few words.** You type, it guesses the rest of the line. You're still the one writing code.
 
-```bash
-xattr -cr /Applications/Claude\ YOLO.app
-```
+**2024 — Cursor completes sentences.** Press Tab, get a block. You're still reading every line, still driving.
 
-然后就可以正常打开了。
+**2025 — Claude Code writes entire features.** Multi-file changes, architecture decisions, test suites — all from a single prompt. The agent writes more code than you do. And honestly? It's often code you wouldn't even bother reading line by line, because **it just works**.
 
-## 功能
+This is the moment Pieter Levels ([@levelsio](https://x.com/levelsio)) captured perfectly:
 
-- 自动检测 Node.js，未安装则引导安装
-- 自动安装 Claude Code CLI（如果还没装）
-- 一键启动 `claude --dangerously-skip-permissions` 模式
-- 自动跳过信任确认（如果系统有 `expect`）
-- 支持 Intel 和 Apple Silicon Mac
+> **"I ship code, I don't read."**
 
-## 系统要求
+The old workflow was: write code → run code → debug code. The new workflow is: **describe intent → review results → ship**. You don't need to micromanage every semicolon. You need to shape outcomes.
 
-- macOS 10.6+
-- Node.js（应用会引导你安装）
-- Anthropic API Key 或 Claude Pro/Max 订阅
+### The Problem
 
-## 截图
+When you embrace this agent-first workflow with Claude Code, you quickly realize: **permission prompts are the bottleneck**, not the AI.
 
-打开 DMG 后拖入 Applications 即可：
+Claude Code's default mode asks for confirmation on every file edit, every shell command, every action. This makes sense for cautious exploration. But when you're in flow — when you trust the agent and just want results — it's like having a copilot who asks "are you sure?" before every turn of the steering wheel.
 
-```
-┌──────────────────────────────┐
-│                              │
-│   [Claude YOLO]  →  [Apps]   │
-│                              │
-└──────────────────────────────┘
-```
+The solution is `--dangerously-skip-permissions` (a.k.a. YOLO mode). But:
 
-## 工作原理
+- The command is long and impossible to remember
+- Switching modes inside an existing Claude session (Shift+Tab) is unreliable
+- You end up keeping the command in a notes app, copying and pasting it into terminal every time
 
-Claude YOLO 是一个 AppleScript 应用，启动后会在终端中运行 `launch-claude.sh` 脚本：
+**That's a terrible workflow for something you do dozens of times a day.**
 
-1. 检查 Node.js 是否已安装
-2. 检查 Claude Code CLI 是否已安装，没有则自动 `npm install -g @anthropic-ai/claude-code`
-3. 以 `--dangerously-skip-permissions` 模式启动 Claude Code
+### The Solution
+
+**Claude YOLO** is a macOS app you put in your Dock. Click it, and you're instantly in a Claude Code session with bypass permissions on. No commands to remember. No mode switching. No friction.
+
+One click. Full autonomy. Ship faster.
+
+## Screenshots
+
+### Drag to Install
+
+<p align="center">
+  <img src="screenshots/dmg-install.png" width="560" alt="DMG Install">
+</p>
+
+### One Click, YOLO Mode
+
+<p align="center">
+  <img src="screenshots/terminal-launch.png" width="560" alt="Terminal Launch">
+</p>
+
+## Installation
+
+1. **Download** `Claude-YOLO.dmg` from [Releases](https://github.com/kenny-zheng-best/claude-yolo/releases)
+2. **Open** the DMG and drag **Claude YOLO** to your Applications folder
+3. **Launch** from Applications or pin it to your Dock for one-click access
+
+> **macOS says "damaged"?** Since the app isn't signed with an Apple Developer certificate, macOS may block it. Run this in Terminal:
+> ```bash
+> xattr -cr /Applications/Claude\ YOLO.app
+> ```
+
+### Prerequisites
+
+- **macOS** (Intel & Apple Silicon)
+- **Node.js** — if not installed, Claude YOLO will open the [download page](https://nodejs.org/) for you
+- **Claude Code** — if not installed, Claude YOLO will install it automatically via npm
+- **Anthropic API Key** or **Claude Pro / Max subscription**
+
+## What It Does
+
+When you click the app, it:
+
+1. Opens a Terminal window
+2. Checks that Node.js is available (guides you to install if missing)
+3. Checks that Claude Code is available (auto-installs via `npm install -g @anthropic-ai/claude-code` if missing)
+4. Launches `claude --dangerously-skip-permissions`
+5. Auto-confirms the trust prompt (via `expect`, with graceful fallback)
+
+That's it. You're in YOLO mode.
+
+## FAQ
+
+**Is this safe?**
+
+YOLO mode gives Claude Code full autonomy — it can read, write, and execute anything on your machine without asking. Use it the same way you'd use `sudo`: with awareness. If you're working on a personal project and trust the agent, it's a massive productivity boost. If you're on a production server, maybe don't.
+
+**Why a native app instead of a shell alias?**
+
+Because a Dock icon is zero-friction. No terminal to open, no command to type or remember. It's the fastest path from "I have an idea" to "Claude is working on it."
+
+**Can I customize the working directory?**
+
+Claude YOLO opens in your home directory (`$HOME`) by default. Once in the session, use `/cd` or just ask Claude to navigate to your project.
 
 ## License
 
