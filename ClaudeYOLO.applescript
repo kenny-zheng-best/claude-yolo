@@ -1,11 +1,13 @@
 -- Claude YOLO
 -- You Only Live Once - 一键启动 Claude Code bypass permissions 模式
--- 使用 expect 自动跳过 trust folder 确认
 
 on run
-	set launchScript to quoted form of "/Users/kennyzheng/Documents/coding/Claude code start/launch-claude.sh"
+	-- 获取 App 内部的 launch 脚本路径
+	set appPath to POSIX path of (path to me)
+	set launchScript to quoted form of (appPath & "Contents/Resources/launch-claude.sh")
+
 	tell application "Terminal"
 		activate
-		do script "cd /Users/kennyzheng && " & launchScript
+		do script "cd $HOME && " & launchScript
 	end tell
 end run

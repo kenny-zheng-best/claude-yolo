@@ -6,24 +6,29 @@ CLAUDE_BIN=""
 for path in \
     "$HOME/.local/bin/claude" \
     "/usr/local/bin/claude" \
-    "$(which claude 2>/dev/null)"; do
-    if [ -x "$path" ] 2>/dev/null; then
+    "/opt/homebrew/bin/claude"; do
+    if [ -x "$path" ]; then
         CLAUDE_BIN="$path"
         break
     fi
 done
 
+# 如果上面没找到，尝试 PATH
 if [ -z "$CLAUDE_BIN" ]; then
+    CLAUDE_BIN="$(command -v claude 2>/dev/null)"
+fi
+
+if [ -z "$CLAUDE_BIN" ] || [ ! -x "$CLAUDE_BIN" ]; then
     echo ""
     echo "  ⚡ Claude YOLO"
     echo ""
-    echo "  Claude Code 未安装。请先安装："
+    echo "  Claude Code is not installed. Please install it first:"
     echo ""
     echo "    npm install -g @anthropic-ai/claude-code"
     echo ""
-    echo "  安装完成后重新打开此 App。"
+    echo "  Then reopen this app."
     echo ""
-    read -p "  按回车关闭..."
+    read -p "  Press Enter to close..."
     exit 1
 fi
 
