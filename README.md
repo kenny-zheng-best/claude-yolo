@@ -8,6 +8,18 @@
 
 前往 [Releases](https://github.com/kenny-zheng-best/claude-yolo/releases/latest) 页面，下载最新的 **Claude-YOLO.dmg**，打开后将应用拖入 Applications 文件夹即可。
 
+### macOS 提示"已损坏"？
+
+由于应用没有 Apple 开发者签名，macOS 会阻止打开。解决方法：
+
+打开**终端**，粘贴以下命令后回车：
+
+```bash
+xattr -cr /Applications/Claude\ YOLO.app
+```
+
+然后就可以正常打开了。
+
 ## 功能
 
 - 自动检测 Node.js，未安装则引导安装
